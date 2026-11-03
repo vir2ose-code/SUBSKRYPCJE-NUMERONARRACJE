@@ -285,119 +285,136 @@
     footer{padding-bottom:40px}
   }
 
-  /* HERO WYŚRODKOWANY & KARUZELA */
-  .hero-centered{padding:48px 0 64px;text-align:center}
-  .hero-intro{max-width:780px;margin:0 auto 36px}
+  /* HERO WYŚRODKOWANY (IPAD W TLE + ROTUJĄCY IPHONE Z PRZODU) */
+  .hero-centered{padding:44px 0 54px;text-align:center}
+  .hero-intro{max-width:860px;margin:0 auto 30px}
   .hero-intro h1{font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.25;max-width:860px;margin:0 auto 16px}
   .hero-intro .sub{font-size:1.15rem;color:var(--cream-soft);margin-bottom:0}
 
-  .hero-carousel-wrap{
+  .hero-stage-wrap{
     position:relative;
-    max-width:680px;
+    max-width:860px;
     margin:0 auto;
-    padding:10px 0 40px;
+    padding:10px 0 20px;
   }
-  .hero-carousel{
+  .hero-stage{
     position:relative;
+    width:100%;
     min-height:540px;
     display:flex;
-    align-items:center;
+    align-items:flex-end;
     justify-content:center;
   }
-  .carousel-slide{
+
+  /* TŁO: IPAD (STATYCZNY) */
+  .stage-backdrop{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:center;
+    transform:translateX(-55px);
+  }
+  .mockup-tablet-back{
+    margin:0;
+    position:relative;
+  }
+  .mockup-tablet-back::before{
+    content:"";position:absolute;inset:6% 6%;z-index:0;
+    background:radial-gradient(closest-side, rgba(78,131,151,.5), rgba(212,165,116,.28) 55%, transparent 100%);
+    filter:blur(46px);
+  }
+  .mockup-tablet-back img{
+    position:relative;
+    z-index:1;
+    display:block;
+    max-height:500px;
+    width:auto;
+    height:auto;
+    border-radius:24px;
+    filter:drop-shadow(0 20px 45px rgba(10,3,15,.65));
+  }
+  .mockup-tablet-back .device-tag{
+    position:absolute;
+    bottom:-26px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:.82rem;
+    color:var(--cream-soft);
+    opacity:.7;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  /* PIERWSZY PLAN: IPHONE Z ROTUJĄCYMI EKRANAMI */
+  .stage-phones{
+    position:absolute;
+    z-index:3;
+    right:calc(50% - 280px);
+    bottom:0;
+    width:220px;
+    height:430px;
+    pointer-events:auto;
+  }
+  .phone-slide{
     position:absolute;
     inset:0;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
+    justify-content:flex-end;
     opacity:0;
     visibility:hidden;
-    transform:scale(0.94);
-    transition:opacity .5s cubic-bezier(.2,.8,.2,1), transform .5s cubic-bezier(.2,.8,.2,1);
+    transform:translateX(100px) scale(0.96);
+    transition:transform 1.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.15s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.15s;
     pointer-events:none;
   }
-  .carousel-slide.active{
-    position:relative;
+  .phone-slide.active{
     opacity:1;
     visibility:visible;
-    transform:scale(1);
+    transform:translateX(0) scale(1);
     pointer-events:auto;
   }
-  .mockup-frame{
+  .phone-slide.exit-left{
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(-100px) scale(0.96);
+    pointer-events:none;
+  }
+  .mockup-phone-front{
     margin:0;
     position:relative;
-    display:inline-flex;
+    display:flex;
     flex-direction:column;
     align-items:center;
   }
-  .mockup-frame::before{
-    content:"";position:absolute;inset:10% 8%;z-index:0;
-    background:radial-gradient(closest-side, rgba(78,131,151,.45), rgba(212,165,116,.25) 50%, transparent 100%);
-    filter:blur(36px);
-  }
-  .mockup-frame img{
-    position:relative;
-    z-index:1;
+  .mockup-phone-front img{
     display:block;
-    max-height:510px;
-    max-width:90vw;
+    max-height:390px;
     width:auto;
     height:auto;
-    filter:drop-shadow(0 22px 45px rgba(10,3,15,.7));
+    filter:drop-shadow(-18px 24px 38px rgba(10,3,15,.85));
     transition:transform .3s ease;
   }
-  .mockup-tablet img{
-    border-radius:24px;
+  .mockup-phone-front:hover img{
+    transform:translateY(-4px) scale(1.02);
   }
-  .mockup-frame:hover img{
-    transform:scale(1.02);
-  }
-  .mockup-frame figcaption{
-    margin-top:14px;
-    font-size:.9rem;
+  .mockup-phone-front figcaption{
+    margin-top:10px;
+    font-size:.88rem;
     color:var(--gold-soft);
-    letter-spacing:.05em;
-    text-transform:uppercase;
     font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    white-space:nowrap;
   }
 
-  /* Carousel Navigation Buttons */
-  .carousel-btn{
-    position:absolute;
-    top:45%;
-    transform:translateY(-50%);
-    width:46px;
-    height:46px;
-    border-radius:50%;
-    border:1px solid rgba(212,165,116,.3);
-    background:rgba(30,12,32,.75);
-    backdrop-filter:blur(8px);
-    color:var(--cream);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    z-index:10;
-    transition:all .2s ease;
-  }
-  .carousel-btn:hover{
-    background:var(--gold);
-    color:var(--graphite);
-    border-color:var(--gold);
-    transform:translateY(-50%) scale(1.08);
-    box-shadow:0 6px 20px rgba(0,0,0,.4);
-  }
-  .carousel-btn.prev{left:-20px}
-  .carousel-btn.next{right:-20px}
-
-  /* Carousel Dots */
+  /* Kropki pod sceną */
   .carousel-dots{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
-    margin-top:20px;
+    margin-top:34px;
   }
   .carousel-dots .dot{
     width:11px;
@@ -407,13 +424,59 @@
     border:0;
     cursor:pointer;
     padding:0;
-    transition:all .25s ease;
+    transition:all .3s ease;
   }
   .carousel-dots .dot.active{
     background:var(--gold);
     width:28px;
     border-radius:999px;
     box-shadow:0 0 10px rgba(212,165,116,.6);
+  }
+
+  @media(max-width:768px){
+    .hero-stage{
+      min-height:460px;
+    }
+    .stage-backdrop{
+      transform:translateX(-30px);
+    }
+    .mockup-tablet-back img{
+      max-height:380px;
+    }
+    .stage-phones{
+      right:calc(50% - 190px);
+      width:180px;
+      height:330px;
+    }
+    .mockup-phone-front img{
+      max-height:300px;
+    }
+    .mockup-phone-front figcaption{
+      font-size:.78rem;
+    }
+  }
+
+  @media(max-width:480px){
+    .hero-stage{
+      min-height:380px;
+    }
+    .stage-backdrop{
+      transform:translateX(-20px);
+    }
+    .mockup-tablet-back img{
+      max-height:290px;
+    }
+    .stage-phones{
+      right:calc(50% - 140px);
+      width:140px;
+      height:250px;
+    }
+    .mockup-phone-front img{
+      max-height:230px;
+    }
+    .mockup-phone-front figcaption{
+      font-size:.72rem;
+    }
   }
 
   /* GALERIA EKRANÓW SEKCJA */
@@ -499,7 +562,7 @@
 </header>
 
 <main id="top">
-  <!-- 1. HERO (CENTRALNY Z KARUZELĄ MOCKUPÓW) -->
+  <!-- 1. HERO (IPAD W TLE + ROTUJĄCY IPHONE NA PIERWSZYM PLANIE) -->
   <section class="hero-centered" aria-labelledby="h1">
     <div class="wrap">
       <div class="hero-intro">
@@ -507,50 +570,50 @@
         <p class="sub">Prognoza dnia, kalkulator liczby urodzenia, utulanki na dobry sen i narzędzia do pracy z emocjami. W jednym spokojnym miejscu, bez wróżenia i bez oceniania.</p>
       </div>
 
-      <!-- KARUZELA: IPAD + IPHONE'Y -->
-      <div class="hero-carousel-wrap">
-        <div class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Zrzuty z aplikacji">
-          <!-- Slajd 1: Tablet / iPad -->
-          <div class="carousel-slide active" data-slide="0">
-            <figure class="mockup-frame mockup-tablet">
-              <img src="img/hero-tablet.webp" width="560" height="761" alt="Numeronarracje na tablecie iPad: Dzisiejsza prognoza i suwak energii">
-              <figcaption>iPad: Dzisiejsza prognoza</figcaption>
+      <!-- STAGE: IPAD W TLE + IPHONE Z PRZODU -->
+      <div class="hero-stage-wrap">
+        <div class="hero-stage" id="heroStage">
+          <!-- TŁO: STATYCZNY IPAD -->
+          <div class="stage-backdrop">
+            <figure class="mockup-tablet-back">
+              <img src="img/hero-tablet.webp" width="560" height="761" alt="Numeronarracje na tablecie iPad: Dzisiejsza prognoza">
+              <span class="device-tag">iPad · Dzisiejsza prognoza</span>
             </figure>
           </div>
 
-          <!-- Slajd 2: iPhone Dzisiejsza Prognoza -->
-          <div class="carousel-slide" data-slide="1">
-            <figure class="mockup-frame mockup-phone">
-              <img src="img/iphone-prognoza.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Dzisiejsza prognoza">
-              <figcaption>iPhone: Dzisiejsza prognoza</figcaption>
-            </figure>
-          </div>
+          <!-- PIERWSZY PLAN: ROTUJĄCE EKRANY IPHONE -->
+          <div class="stage-phones" id="stagePhones">
+            <!-- Slajd 1: Prognoza Dnia -->
+            <div class="phone-slide active" data-slide="0">
+              <figure class="mockup-phone-front">
+                <img src="img/iphone-prognoza.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Dzisiejsza prognoza">
+                <figcaption>iPhone: Prognoza dnia</figcaption>
+              </figure>
+            </div>
 
-          <!-- Slajd 3: iPhone Matryca Urodzeniowa -->
-          <div class="carousel-slide" data-slide="2">
-            <figure class="mockup-frame mockup-phone">
-              <img src="img/iphone-matryca.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Matryca urodzeniowa i Karta Dnia">
-              <figcaption>iPhone: Matryca urodzeniowa i Karta Dnia</figcaption>
-            </figure>
-          </div>
+            <!-- Slajd 2: Matryca Urodzeniowa -->
+            <div class="phone-slide" data-slide="1">
+              <figure class="mockup-phone-front">
+                <img src="img/iphone-matryca.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Matryca urodzeniowa i Karta Dnia">
+                <figcaption>iPhone: Matryca urodzeniowa</figcaption>
+              </figure>
+            </div>
 
-          <!-- Slajd 4: iPhone Metoda The Work -->
-          <div class="carousel-slide" data-slide="3">
-            <figure class="mockup-frame mockup-phone">
-              <img src="img/iphone-thework.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Metoda The Work i Głos Przewodnika">
-              <figcaption>iPhone: Metoda The Work</figcaption>
-            </figure>
+            <!-- Slajd 3: Metoda The Work -->
+            <div class="phone-slide" data-slide="2">
+              <figure class="mockup-phone-front">
+                <img src="img/iphone-thework.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Metoda The Work i Głos Przewodnika">
+                <figcaption>iPhone: Metoda The Work</figcaption>
+              </figure>
+            </div>
           </div>
         </div>
 
-
-
-        <!-- Kropki pod karuzelą -->
-        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Wybierz slajd">
-          <button class="dot active" role="tab" aria-selected="true" aria-label="Slajd 1: iPad Prognoza" data-index="0"></button>
-          <button class="dot" role="tab" aria-selected="false" aria-label="Slajd 2: iPhone Prognoza" data-index="1"></button>
-          <button class="dot" role="tab" aria-selected="false" aria-label="Slajd 3: iPhone Matryca" data-index="2"></button>
-          <button class="dot" role="tab" aria-selected="false" aria-label="Slajd 4: iPhone The Work" data-index="3"></button>
+        <!-- Kropki pod sceną -->
+        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Wybierz ekran iPhone'a">
+          <button class="dot active" role="tab" aria-selected="true" aria-label="Ekran 1: Prognoza dnia" data-index="0"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Ekran 2: Matryca urodzeniowa" data-index="1"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Ekran 3: Metoda The Work" data-index="2"></button>
         </div>
       </div>
     </div>
@@ -703,11 +766,13 @@
     if(r) r.textContent = new Date().getFullYear();
   })();
 
-  // Karuzela zrzutów w Hero: rotacja co 6s, zatrzymanie palcem/kursorem, kropki i swipe
+  // Majestatyczne wsuwanie ekranów iPhone'a przed iPadem:
+  // Rotacja co 6s, zatrzymanie palcem / kursorem, wskaźniki kropek i gest swipe
   (function(){
-    var slides = document.querySelectorAll('.carousel-slide');
+    var slides = document.querySelectorAll('.phone-slide');
     var dots = document.querySelectorAll('.carousel-dots .dot');
-    var carouselWrap = document.querySelector('.hero-carousel-wrap');
+    var stagePhones = document.getElementById('stagePhones');
+    var stageWrap = document.querySelector('.hero-stage-wrap');
     if(!slides.length) return;
 
     var current = 0;
@@ -715,24 +780,41 @@
     var autoTimer = null;
     var isPaused = false;
 
-    function goTo(idx){
-      slides[current].classList.remove('active');
+    function goTo(nextIdx){
+      if(nextIdx === current) return;
+
+      var prevSlide = slides[current];
+      var nextSlide = slides[nextIdx];
+
+      // Poprzedni slajd płynnie wysuwa się w lewo i znika
+      prevSlide.classList.remove('active');
+      prevSlide.classList.add('exit-left');
       dots[current].classList.remove('active');
       dots[current].setAttribute('aria-selected', 'false');
 
-      current = (idx + total) % total;
+      // Nowy slajd przygotowuje się z prawej strony i wsuwa majestatycznie
+      nextSlide.classList.remove('exit-left');
+      // Wymuszenie reflow dla płynnej animacji
+      void nextSlide.offsetWidth;
+      nextSlide.classList.add('active');
 
-      slides[current].classList.add('active');
-      dots[current].classList.add('active');
-      dots[current].setAttribute('aria-selected', 'true');
+      dots[nextIdx].classList.add('active');
+      dots[nextIdx].setAttribute('aria-selected', 'true');
+
+      // Po zakończeniu animacji (1.15s) czyścimy klasę exit-left
+      setTimeout(function(){
+        prevSlide.classList.remove('exit-left');
+      }, 1200);
+
+      current = nextIdx;
     }
 
     function next(){
-      goTo(current + 1);
+      goTo((current + 1) % total);
     }
 
     function prev(){
-      goTo(current - 1);
+      goTo((current - 1 + total) % total);
     }
 
     // Kliknięcie kropek
@@ -763,13 +845,13 @@
       startTimer();
     }
 
-    if(carouselWrap){
-      // Zatrzymanie po najechaniu myszką
-      carouselWrap.addEventListener('mouseenter', function(){
+    // Zatrzymanie po najechaniu myszką
+    if(stageWrap){
+      stageWrap.addEventListener('mouseenter', function(){
         isPaused = true;
         stopTimer();
       });
-      carouselWrap.addEventListener('mouseleave', function(){
+      stageWrap.addEventListener('mouseleave', function(){
         isPaused = false;
         startTimer();
       });
@@ -778,7 +860,7 @@
       var touchStartX = 0;
       var touchEndX = 0;
 
-      carouselWrap.addEventListener('touchstart', function(e){
+      stageWrap.addEventListener('touchstart', function(e){
         isPaused = true;
         stopTimer();
         if(e.changedTouches && e.changedTouches[0]){
@@ -786,7 +868,7 @@
         }
       }, {passive:true});
 
-      carouselWrap.addEventListener('touchend', function(e){
+      stageWrap.addEventListener('touchend', function(e){
         if(e.changedTouches && e.changedTouches[0]){
           touchEndX = e.changedTouches[0].screenX;
           var diff = touchStartX - touchEndX;
@@ -794,13 +876,12 @@
             if(diff > 0) next(); else prev();
           }
         }
-        // Po oderwaniu palca wznawiamy automatyczne przewijanie po 6s
+        // Po oderwaniu palca wznawiamy automatyczną rotację po 6s
         isPaused = false;
         startTimer();
       }, {passive:true});
     }
 
-    // Start od razu
     startTimer();
   })();
 </script>
