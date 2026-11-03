@@ -51,7 +51,7 @@
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;line-height:1.2;margin:0 0 .6em;color:var(--cream)}
-  h1{font-size:clamp(1.9rem,6.4vw,3.2rem)}
+  h1{font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.25;max-width:860px;margin:0 auto 16px}
   h2{font-size:clamp(1.55rem,4.6vw,2.2rem);text-align:center}
   h3{font-size:1.2rem}
   p{margin:0 0 1em}
@@ -288,7 +288,7 @@
   /* HERO WYŚRODKOWANY & KARUZELA */
   .hero-centered{padding:48px 0 64px;text-align:center}
   .hero-intro{max-width:780px;margin:0 auto 36px}
-  .hero-intro h1{margin-bottom:16px}
+  .hero-intro h1{font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.25;max-width:860px;margin:0 auto 16px}
   .hero-intro .sub{font-size:1.15rem;color:var(--cream-soft);margin-bottom:0}
 
   .hero-carousel-wrap{
@@ -299,11 +299,10 @@
   }
   .hero-carousel{
     position:relative;
-    min-height:500px;
+    min-height:540px;
     display:flex;
     align-items:center;
     justify-content:center;
-    perspective:1200px;
   }
   .carousel-slide{
     position:absolute;
@@ -314,15 +313,15 @@
     justify-content:center;
     opacity:0;
     visibility:hidden;
-    transform:scale(0.92) translateY(12px);
-    transition:opacity .45s cubic-bezier(.2,.8,.2,1), transform .45s cubic-bezier(.2,.8,.2,1), visibility .45s;
+    transform:scale(0.94);
+    transition:opacity .5s cubic-bezier(.2,.8,.2,1), transform .5s cubic-bezier(.2,.8,.2,1);
     pointer-events:none;
   }
   .carousel-slide.active{
     position:relative;
     opacity:1;
     visibility:visible;
-    transform:scale(1) translateY(0);
+    transform:scale(1);
     pointer-events:auto;
   }
   .mockup-frame{
@@ -341,15 +340,15 @@
     position:relative;
     z-index:1;
     display:block;
-    max-height:480px;
+    max-height:510px;
+    max-width:90vw;
     width:auto;
     height:auto;
-    filter:drop-shadow(0 20px 40px rgba(10,3,15,.65));
+    filter:drop-shadow(0 22px 45px rgba(10,3,15,.7));
     transition:transform .3s ease;
   }
   .mockup-tablet img{
     border-radius:24px;
-    box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08);
   }
   .mockup-frame:hover img{
     transform:scale(1.02);
@@ -442,15 +441,18 @@
     z-index:1;
     display:block;
     width:100%;
+    max-width:760px;
+    margin:0 auto;
     height:auto;
-    border-radius:24px;
-    border:1px solid rgba(78,131,151,.35);
-    box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05);
-    transition:transform .3s ease, box-shadow .3s ease;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+    filter:drop-shadow(0 20px 45px rgba(10,3,15,.7));
+    transition:transform .3s ease, filter .3s ease;
   }
   .gallery-poster:hover img{
-    transform:translateY(-3px);
-    box-shadow:0 30px 70px rgba(0,0,0,.7), 0 0 0 1px rgba(212,165,116,.2);
+    transform:translateY(-4px);
+    filter:drop-shadow(0 26px 55px rgba(10,3,15,.8));
   }
   .gallery-poster figcaption{
     margin-top:16px;
@@ -541,13 +543,7 @@
           </div>
         </div>
 
-        <!-- Przyciski nawigacji lewo/prawo -->
-        <button class="carousel-btn prev" id="carouselPrev" aria-label="Poprzedni slajd">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <button class="carousel-btn next" id="carouselNext" aria-label="Następny slajd">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
+
 
         <!-- Kropki pod karuzelą -->
         <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Wybierz slajd">
@@ -705,6 +701,107 @@
   (function(){
     var r = document.getElementById('rok');
     if(r) r.textContent = new Date().getFullYear();
+  })();
+
+  // Karuzela zrzutów w Hero: rotacja co 6s, zatrzymanie palcem/kursorem, kropki i swipe
+  (function(){
+    var slides = document.querySelectorAll('.carousel-slide');
+    var dots = document.querySelectorAll('.carousel-dots .dot');
+    var carouselWrap = document.querySelector('.hero-carousel-wrap');
+    if(!slides.length) return;
+
+    var current = 0;
+    var total = slides.length;
+    var autoTimer = null;
+    var isPaused = false;
+
+    function goTo(idx){
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      dots[current].setAttribute('aria-selected', 'false');
+
+      current = (idx + total) % total;
+
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      dots[current].setAttribute('aria-selected', 'true');
+    }
+
+    function next(){
+      goTo(current + 1);
+    }
+
+    function prev(){
+      goTo(current - 1);
+    }
+
+    // Kliknięcie kropek
+    dots.forEach(function(dot){
+      dot.addEventListener('click', function(){
+        var i = parseInt(this.getAttribute('data-index'), 10);
+        goTo(i);
+        restartTimer();
+      });
+    });
+
+    function startTimer(){
+      stopTimer();
+      if(!isPaused){
+        autoTimer = setInterval(next, 6000); // 6 sekund
+      }
+    }
+
+    function stopTimer(){
+      if(autoTimer){
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    function restartTimer(){
+      stopTimer();
+      startTimer();
+    }
+
+    if(carouselWrap){
+      // Zatrzymanie po najechaniu myszką
+      carouselWrap.addEventListener('mouseenter', function(){
+        isPaused = true;
+        stopTimer();
+      });
+      carouselWrap.addEventListener('mouseleave', function(){
+        isPaused = false;
+        startTimer();
+      });
+
+      // Zatrzymanie palcem na smartfonie / tablecie
+      var touchStartX = 0;
+      var touchEndX = 0;
+
+      carouselWrap.addEventListener('touchstart', function(e){
+        isPaused = true;
+        stopTimer();
+        if(e.changedTouches && e.changedTouches[0]){
+          touchStartX = e.changedTouches[0].screenX;
+        }
+      }, {passive:true});
+
+      carouselWrap.addEventListener('touchend', function(e){
+        if(e.changedTouches && e.changedTouches[0]){
+          touchEndX = e.changedTouches[0].screenX;
+          var diff = touchStartX - touchEndX;
+          if(Math.abs(diff) > 40){
+            if(diff > 0) next(); else prev();
+          }
+        }
+        // Po oderwaniu palca wznawiamy automatyczne przewijanie po 6s
+        isPaused = false;
+        startTimer();
+      }, {passive:true});
+    }
+
+    // Start od razu
+    startTimer();
   })();
 </script>
 </body>
