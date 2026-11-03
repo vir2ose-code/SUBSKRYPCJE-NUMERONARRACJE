@@ -532,9 +532,44 @@
     .mockup-frame img{max-height:380px}
   }
 
+
+  /* TŁO WIDEO (DELIKATNA MATERIA 40% OPACITY) */
+  .video-bg-wrap{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .video-bg{
+    position:absolute;
+    top:50%;
+    left:50%;
+    min-width:100%;
+    min-height:100%;
+    width:100%;
+    height:100%;
+    transform:translate(-50%,-50%);
+    object-fit:cover;
+    opacity:0.4;
+    filter:contrast(1.05) brightness(0.95);
+  }
+  .site-header, main, footer{
+    position:relative;
+    z-index:1;
+  }
+
 </style>
 </head>
 <body>
+
+  <!-- TŁO WIDEO: DELIKATNA MATERIA W TLE (OPACITY 40%) -->
+  <div class="video-bg-wrap" aria-hidden="true">
+    <video class="video-bg" autoplay loop muted playsinline preload="auto">
+      <source src="img/bg-video.mp4" type="video/mp4">
+    </video>
+  </div>
+
 
 <header class="site-header">
   <div class="wrap">
@@ -577,7 +612,6 @@
           <div class="stage-backdrop">
             <figure class="mockup-tablet-back">
               <img src="img/hero-tablet.webp" width="560" height="761" alt="Numeronarracje na tablecie iPad: Dzisiejsza prognoza">
-              <span class="device-tag">iPad · Dzisiejsza prognoza</span>
             </figure>
           </div>
 
@@ -587,7 +621,6 @@
             <div class="phone-slide active" data-slide="0">
               <figure class="mockup-phone-front">
                 <img src="img/iphone-prognoza.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Dzisiejsza prognoza">
-                <figcaption>iPhone: Prognoza dnia</figcaption>
               </figure>
             </div>
 
@@ -595,7 +628,6 @@
             <div class="phone-slide" data-slide="1">
               <figure class="mockup-phone-front">
                 <img src="img/iphone-matryca.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Matryca urodzeniowa i Karta Dnia">
-                <figcaption>iPhone: Matryca urodzeniowa</figcaption>
               </figure>
             </div>
 
@@ -603,7 +635,6 @@
             <div class="phone-slide" data-slide="2">
               <figure class="mockup-phone-front">
                 <img src="img/iphone-thework.webp" width="559" height="1024" alt="Numeronarracje na iPhone: Metoda The Work i Głos Przewodnika">
-                <figcaption>iPhone: Metoda The Work</figcaption>
               </figure>
             </div>
           </div>
