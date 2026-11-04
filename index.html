@@ -29,7 +29,7 @@
     --gold:#d4a574;          /* miedziane złoto jak na innych stronach */
     --gold-soft:#e8c496;     /* jaśniejszy odcień do małego tekstu */
     --graphite:#22303A;
-    --card:linear-gradient(135deg, rgba(60,99,116,.95) 0%, rgba(72,44,85,.95) 100%);  /* karta: turkus -> fiolet */
+    --card:rgba(30,14,28,.38);  /* tło kart: ciemno bordowe jak w ramce .note */
     --card-border:rgba(78,131,151,.6);
     --radius:20px;
   }
@@ -145,7 +145,7 @@
 
   /* karty */
   .grid{display:grid;gap:16px;margin-top:30px}
-  .card{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .card{background:var(--card);border:1px dashed var(--card-border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:inset 0 2px 8px rgba(15,5,20,.28)}
   .card h3{margin-bottom:.4em}
   .card p{margin:0;color:var(--cream-soft)}
   .card .ico{font-size:1.5rem;color:var(--gold);display:block;margin-bottom:10px;line-height:1}
@@ -185,7 +185,7 @@
   .msg.show{display:block}
 
   /* faq */
-  details{background:var(--card);border:1px solid var(--card-border);border-radius:16px;margin-bottom:12px}
+  details{background:var(--card);border:1px dashed var(--card-border);border-radius:16px;margin-bottom:12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:inset 0 2px 8px rgba(15,5,20,.28);transition:border-color .2s ease, transform .2s ease}
   summary{cursor:pointer;list-style:none;padding:18px 54px 18px 20px;min-height:56px;font-weight:700;position:relative}
   summary::-webkit-details-marker{display:none}
   summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:1.5rem;color:var(--gold);line-height:1}
@@ -210,21 +210,20 @@
 
   /* ===== głębia, światło i cień ===== */
   .site-header{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0));box-shadow:0 10px 30px rgba(15,5,20,.28)}
-  .card,details,.form-card{
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      inset 0 -1px 0 rgba(0,0,0,.18),
-      0 2px 4px rgba(15,5,20,.28),
-      0 16px 38px rgba(15,5,20,.42);
-    transition:transform .25s ease, box-shadow .25s ease;
+  .card,details{
+    box-shadow:inset 0 2px 8px rgba(15,5,20,.28);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
   .card:hover{
-    transform:translateY(-5px);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.22),
-      inset 0 -1px 0 rgba(0,0,0,.18),
-      0 4px 8px rgba(15,5,20,.3),
-      0 26px 50px rgba(15,5,20,.5);
+    transform:translateY(-4px);
+    border-color:rgba(212,165,116,.5);
+    box-shadow:inset 0 2px 8px rgba(15,5,20,.35),0 12px 28px rgba(15,5,20,.45);
+  }
+  details:hover{
+    border-color:rgba(212,165,116,.45);
+  }
+  details[open]{
+    border-color:rgba(212,165,116,.6);
   }
   .form-card{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 4px 10px rgba(15,5,20,.3),0 30px 64px rgba(15,5,20,.5)}
   .btn{
